@@ -5,7 +5,7 @@
 
 [ballerina]
 dependencies-toml-version = "2"
-distribution-version = "2201.9.0-20240419-152500-bd530dd2"
+distribution-version = "2201.9.0"
 
 [[package]]
 org = "ballerina"
@@ -119,7 +119,7 @@ modules = [
 [[package]]
 org = "ballerinax"
 name = "mysql"
-version = "1.10.0"
+version = "1.12.0"
 dependencies = [
 	{org = "ballerina", name = "crypto"},
 	{org = "ballerina", name = "io"},
@@ -156,7 +156,7 @@ modules = [
 
 [[package]]
 org = "haritha"
-name = "hospital"
+name = "introspection_tutorial"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
@@ -170,8 +170,8 @@ dependencies = [
 	{org = "ballerinax", name = "persist.sql"}
 ]
 modules = [
-	{org = "haritha", packageName = "hospital", moduleName = "hospital"},
-	{org = "haritha", packageName = "hospital", moduleName = "hospital.entities"}
+	{org = "haritha", packageName = "introspection_tutorial", moduleName = "introspection_tutorial"},
+	{org = "haritha", packageName = "introspection_tutorial", moduleName = "introspection_tutorial.entities"}
 ]
 
 [[tool]]
