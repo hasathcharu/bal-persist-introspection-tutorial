@@ -171,7 +171,7 @@ dependencies = [
 ]
 modules = [
 	{org = "haritha", packageName = "introspection_tutorial", moduleName = "introspection_tutorial"},
-	{org = "haritha", packageName = "introspection_tutorial", moduleName = "introspection_tutorial.entities"}
+	{org = "haritha", packageName = "introspection_tutorial", moduleName = "introspection_tutorial.db"}
 ]
 
 [[tool]]

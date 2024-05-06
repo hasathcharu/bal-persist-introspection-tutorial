@@ -1,32 +1,32 @@
-import introspection_tutorial.entities;
+import introspection_tutorial.db;
 
 import ballerina/io;
 import ballerina/persist;
 
+// Initialize client
+db:Client dbClient = check new db:Client();
+
 public function main() returns error? {
 
-    // Initialize client
-    entities:Client dbClient = check new entities:Client();
-
     // Insert records
-    check insertRecords(dbClient);
+    check insertRecords();
 
     // Read records
-    check readAndPrintRecords(dbClient);
+    check readAndPrintRecords();
 }
 
-function insertRecords(entities:Client dbClient) returns persist:Error? {
+function insertRecords() returns persist:Error? {
 
     // Create insert records
-    entities:PatientInsert newPatient = {
+    db:PatientInsert newPatient = {
         name: "John Doe",
         age: 30,
         address: "Colombo",
-        gender: entities:MALE,
+        gender: db:MALE,
         phoneNumber: "0771234567"
     };
 
-    entities:DoctorInsert newDoctor = {
+    db:DoctorInsert newDoctor = {
         id: 1,
         name: "Dr. Jane Doe",
         specialty: "Cardiologist",
@@ -34,13 +34,13 @@ function insertRecords(entities:Client dbClient) returns persist:Error? {
         salary: 100000
     };
 
-    entities:AppointmentInsert newAppointment = {
+    db:AppointmentInsert newAppointment = {
         id: 1,
         patientId: 1,
         doctorId: 1,
         appointmentTime: {year: 2024, month: 4, day: 22, hour: 10, minute: 30},
         reason: "Heart pain",
-        status: entities:STARTED
+        status: db:STARTED
     };
 
     // Insert records
@@ -53,31 +53,20 @@ function insertRecords(entities:Client dbClient) returns persist:Error? {
     io:println();
 }
 
-function readAndPrintRecords(entities:Client dbClient) returns persist:Error? {
+function readAndPrintRecords() returns persist:Error? {
 
-    stream<entities:Patient, persist:Error?> patients = dbClient->/patients();
+    stream<db:Patient, persist:Error?> patientStream = dbClient->/patients();
 
-    io:println("Patients:");
-    check from entities:Patient patient in patients
-    do {
-        io:println(patient);
-    };
-    io:println();
+    db:Patient[] patients = check from db:Patient patient in patientStream select patient;
+    io:println(`Patients: ${patients}${"\n"}`);
+    
+    stream<db:Doctor, persist:Error?> doctorStream = dbClient->/doctors();
 
-    stream<entities:Doctor, persist:Error?> doctors = dbClient->/doctors();
+    db:Doctor[] doctors = check from db:Doctor doctor in doctorStream select doctor;
+    io:println(`Doctors: ${doctors}${"\n"}`);
 
-    io:println("Doctors:");
-    check from entities:Doctor doctor in doctors
-    do {
-        io:println(doctor);
-    };
-    io:println();
-
-    io:println("Appointments:");
-    stream<entities:AppointmentWithRelations, persist:Error?> appointments = dbClient->/appointments();
-    check from entities:AppointmentWithRelations appointment in appointments
-    do {
-        io:println(appointment);
-    };
-
+    stream<db:AppointmentWithRelations, persist:Error?> appointmentStream = dbClient->/appointments();
+    
+    db:AppointmentWithRelations[] appointments = check from db:AppointmentWithRelations appointment in appointmentStream select appointment;
+    io:println(`Appointments: ${appointments}${"\n"}`);
 }

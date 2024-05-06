@@ -9,7 +9,7 @@ observabilityIncluded = true
 
 [[tool.persist]]
 id = "generate-db-client"
-targetModule = "introspection_tutorial.entities"
+targetModule = "introspection_tutorial.db"
 options.datastore = "mysql"
 filePath = "persist/model.bal"
 
